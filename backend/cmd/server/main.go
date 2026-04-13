@@ -28,7 +28,11 @@ var upgrader = websocket.Upgrader{
 		if origin == "" {
 			return true
 		}
-		return allowedOrigins[origin]
+		allowed := allowedOrigins[origin]
+		if !allowed {
+			log.Printf("websocket: rejected origin %q (not in allowed list)", origin)
+		}
+		return allowed
 	},
 }
 
